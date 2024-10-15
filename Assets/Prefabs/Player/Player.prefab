@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 3223059865416941798}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,6 +189,7 @@ MonoBehaviour:
   rb: {fileID: 2217132727280007270}
   camera_position: {fileID: 3951981314495700038}
   grapple: {fileID: 3223059865416941798}
+  checkpoint_handler: {fileID: 0}
   walk_speed: 5
   sprint_speed: 8
   crouch_speed: 2
@@ -225,15 +226,15 @@ MonoBehaviour:
   player: {fileID: 5571229006277187272}
   is_grappling: 0
   grapple_speed: 20
+  spring_constant: 26
   grappling_max_speed: 30
   grappling_max_fall_speed: 10
+  grapple_min_length: 3
   grappling_max_distance: 500
   grappling_gravity_scale: 0.4
   impulse_strength: 10
   impulse_up_strength: 10
   anchor_launch_point: {fileID: 7479350779763271851}
-  grapple_anchor_prefab: {fileID: 7470427760888610090, guid: d33717fdb16457d47be67e3e18a570d9, type: 3}
-  anchor_launch_speed: 15
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1

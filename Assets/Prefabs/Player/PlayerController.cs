@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -12,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     [SerializeField] Transform camera_position;
     [SerializeField] GrapplingHook grapple;
+    [SerializeField] CheckpointHandler checkpoint_handler;
 
     [Header("Movement Variables")]
     [SerializeField] private float walk_speed;
@@ -54,21 +51,26 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        PlayerCamera.main_instance.player_orientation = gameObject.transform;
-        PlayerCamera.main_instance.camera_orientation = camera_position;   
+        PlayerCamera playerCam = Camera.main.gameObject.GetComponent<PlayerCamera>();
+        playerCam.player_orientation = gameObject.transform;
+        playerCam.camera_orientation = camera_position;   
     }
 
     private void Update()
     {
         HandleMovement();
         HandleJump();
+
+        if(Input.GetKeyDown(KeyCode.Return)) {
+            Die();
+        }
     }
 
     private void FixedUpdate()
     {
-        if(!grapple.is_grappling){
-            ApplyMovement();
-        }
+        // if(!grapple.is_grappling){
+        ApplyMovement();
+        // }
 
         HandleGravity();
         CheckSpeedOverrides();
@@ -113,6 +115,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void ApplyMovement() {
+        if(grapple.is_grappling) return;
+
         if(is_grounded) {
             control_multiplier = ground_control_multiplier;
             if(max_speed_override != 0f) {
@@ -200,5 +204,10 @@ public class PlayerController : MonoBehaviour
         }
 
         rb.velocity = clamped_velocity;
+    }
+
+    public void Die() {
+        checkpoint_handler.Teleport();
+        // grapple.StopGrapple();
     }
 }
